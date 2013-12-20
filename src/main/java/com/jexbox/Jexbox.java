@@ -10,7 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class Jexbox {
+public class Jexbox implements Notifier{
     private static Log log = LogFactory.getLog(Jexbox.class);
 
     private static final String NOTIFIER_URL = "https://jexbox.com/java";
@@ -27,6 +27,8 @@ public class Jexbox {
     private boolean ssl = false;
     private String host = DEFAULT_HOST;
 
+    private Notifier _notifier = this;
+    
 	public Jexbox(Properties props) {
 		super();
 		init(props);
@@ -40,16 +42,34 @@ public class Jexbox {
 		if(props.containsKey("ssl")){
 			ssl = Boolean.parseBoolean((String) props.get("ssl"));
 		}
+
+		if(props.containsKey("background")){
+			boolean background = Boolean.parseBoolean((String) props.get("background"));
+			if(background){
+				_notifier = new BackgroundNotifier();
+			}
+		}
 	}
 	
 	public String getAppId(){
 		return appId;
 	}
 	
+	/*
+	 * Send error to Jexbox server instantly
+	 */
+	public void send(JsonObject json) throws TransportException, UnsupportedEncodingException {
+		Transport.send(json);
+	}
+	
+	/*
+	 * Entry point for sending errors to Jexbox.
+	 * Depending from configuration, can send error instantly in current thread or use background notifier to put errors in queue
+	 */
 	public void send(Throwable e){
 		JsonObject json = json(e);
 		try {
-			Transport.send(getHttpHost(), json, getAppId());
+			_notifier.send(json);
 		} catch (UnsupportedEncodingException e1) {
 			log.error("Could not able to send error to Jexbox", e1);
 		} catch (TransportException e1) {
@@ -60,6 +80,7 @@ public class Jexbox {
 	public JsonObject json(Throwable e){
 		JsonObject json = new JsonObject();
 		json.add("appId", new JsonPrimitive(getAppId()));
+		json.add("host", new JsonPrimitive(getHttpHost()));
 
 		JsonObject notifier = new JsonObject();
 		json.add("notifier", notifier);

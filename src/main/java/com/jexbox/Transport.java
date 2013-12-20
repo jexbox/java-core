@@ -8,9 +8,67 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.google.gson.JsonObject;
 
-public class Transport {
+public class Transport implements Runnable{
+    private static Log log = LogFactory.getLog(Transport.class);
+
+	private MemoryQueue _queue = null;
+	private String _state = "idle";
+	
+	public Transport(MemoryQueue queue){
+		super();
+		_queue = queue;
+	}
+	
+	public synchronized void stop() {
+    	_state = "stop";
+    	_queue.notifyWorker();
+    }
+	
+    public synchronized void start(){
+    	if(!"idle".equals(_state)){
+//    		throw new Exception("You can only start idle workers");
+    		log.warn("You can only start idle workers");
+    		return;
+    	}
+    	Thread t = new Thread(this);
+	    t.setDaemon(true);
+	    _state = "running";
+		t.start();
+    }
+    
+	public synchronized String getState() {
+		return _state;
+	}
+	
+	public void run() {
+		while(true){
+			if("stop".equalsIgnoreCase(_state))
+				break;
+			JsonObject json = _queue.peek();
+			if(json == null){
+				_queue.waitWorker();
+			}else{
+				try {
+					send(json);
+				} catch (Throwable e) {
+					log.error(e);
+				}
+				_queue.remove();				
+			}
+		}
+	}
+
+    public static void send(JsonObject json) throws TransportException, UnsupportedEncodingException{
+    	String appId = json.get("appId").getAsString();
+    	String host = json.get("host").getAsString();
+    	send(host, json.toString(), "application/json", appId);
+    }
+
     public static void send(String host, JsonObject json, String appId) throws TransportException, UnsupportedEncodingException{
     	send(host, json.toString(), "application/json", appId);
     }
