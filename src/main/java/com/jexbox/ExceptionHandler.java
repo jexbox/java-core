@@ -1,0 +1,33 @@
+package com.jexbox;
+
+import java.lang.Thread.UncaughtExceptionHandler;
+
+class ExceptionHandler implements UncaughtExceptionHandler {
+    private UncaughtExceptionHandler _handler;
+    private Jexbox _jexbox;
+
+    public ExceptionHandler(UncaughtExceptionHandler handler, Jexbox notifier) {
+        _handler = handler;
+        _jexbox = notifier;
+    }
+    
+    public static void install(Jexbox notifier) {
+        UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
+        if(currentHandler instanceof ExceptionHandler) {
+            currentHandler = ((ExceptionHandler)currentHandler)._handler;
+        }
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(currentHandler, notifier));
+    }
+
+    public static void remove() {
+        UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
+        if(currentHandler instanceof ExceptionHandler) {
+            Thread.setDefaultUncaughtExceptionHandler(((ExceptionHandler)currentHandler)._handler);
+        }
+    }
+
+    public void uncaughtException(Thread thread, Throwable ex) {
+    	_jexbox.send(ex);
+    	_handler.uncaughtException(thread, ex);
+    }
+}
