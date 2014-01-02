@@ -16,12 +16,14 @@ public class Jexbox implements Notifier{
     private static final String NOTIFIER_URL = "https://jexbox.com/java";
     private static final String NOTIFIER_NAME = "Java Jexbox Notifier";
     private static final String NOTIFIER_VERSION = "0.0.1";
+    private static final String ENVIRONMENT = "production";
 
     protected static final String DEFAULT_HOST = "notify.jexbox.com";
 
     private String name = NOTIFIER_NAME;
 	private String version = NOTIFIER_VERSION;
     private String url = NOTIFIER_URL;
+    private String env = ENVIRONMENT;
 
     private String appId;
     private boolean ssl = false;
@@ -38,6 +40,9 @@ public class Jexbox implements Notifier{
 		appId = (String) props.get("appId");
 		if(props.containsKey("host")){
 			host = (String) props.get("host");
+		}
+		if(props.containsKey("environment")){
+			env = (String) props.get("environment");
 		}
 		if(props.containsKey("ssl")){
 			ssl = Boolean.parseBoolean((String) props.get("ssl"));
@@ -87,10 +92,15 @@ public class Jexbox implements Notifier{
 		notifier.add("name", new JsonPrimitive(getName()));
 		notifier.add("version", new JsonPrimitive(getVersion()));
 		notifier.add("url", new JsonPrimitive(getUrl()));
+		notifier.add("env", new JsonPrimitive(getEnv()));
 		
 		JsonArray exceptions = new JsonArray();
 		json.add("exceptions", exceptions);
-		
+		json.add("exceptionType", new JsonPrimitive(e.getClass().getName()));
+		json.add("inClass", new JsonPrimitive(e.getStackTrace()[0].getClassName()));
+		json.add("inMethod", new JsonPrimitive(e.getStackTrace()[0].getMethodName()));
+		json.add("inFile", new JsonPrimitive(e.getStackTrace()[0].getFileName()));
+		json.add("onLine", new JsonPrimitive(e.getStackTrace()[0].getLineNumber()));
 		Throwable ex = e;
         while(ex != null) {
     		JsonObject jex = new JsonObject();
@@ -136,6 +146,15 @@ public class Jexbox implements Notifier{
         return (ssl ? "https://" : "http://") + getHost();
     }
 
+	public String getEnv() {
+		return env;
+	}
+
+	public void setEnv(String env) {
+		this.env = env;
+	}
+
+    
 	
 /*
 	public String json(Throwable e){
