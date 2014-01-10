@@ -1,7 +1,9 @@
 package com.jexbox;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +74,10 @@ public class Jexbox implements Notifier{
 	 * Depending from configuration, can send error instantly in current thread or use background notifier to put errors in queue
 	 */
 	public void send(Throwable e){
-		JsonObject json = json(e);
+	}
+	
+	public void sendWithMeta(Throwable e, Map<String, Map<String, String>> metaD){
+		JsonObject json = json(e, metaD);
 		try {
 			_notifier.send(json);
 		} catch (UnsupportedEncodingException e1) {
@@ -81,8 +86,12 @@ public class Jexbox implements Notifier{
 			log.error("Could not able to send error to Jexbox", e1);
 		}
 	}
-
+	
 	public JsonObject json(Throwable e){
+		return json(e, null);
+	}
+	
+	public JsonObject json(Throwable e, Map<String, Map<String, String>> metaD){
 		JsonObject json = new JsonObject();
 		json.add("appId", new JsonPrimitive(getAppId()));
 		json.add("host", new JsonPrimitive(getHttpHost()));
@@ -118,11 +127,59 @@ public class Jexbox implements Notifier{
             }
             
             ex = ex.getCause();
-        }		
+        }
+        
+		JsonObject meta = new JsonObject();
+		json.add("meta", meta);
+		
+		JsonObject env = getEnvironment();
+		meta.add("Environment", env);
+
+		JsonObject systemProps = getSystemProps();
+		meta.add("SystemProps", env);
+        
+		if(metaD != null){
+			for (String metaName : metaD.keySet()) {
+				JsonObject metaP = new JsonObject();
+				meta.add("metaName", metaP);
+
+				Map<String, String> metaG = metaD.get(metaName);
+				for (String key : metaG.keySet()) {
+					String val = metaG.get(key);
+					env.add(key, new JsonPrimitive(val));
+				}			
+			}
+		}
+		
 		return json;
 	}
 	
-    public String getName() {
+	protected JsonObject getEnvironment(){
+		JsonObject env = new JsonObject();
+		
+		Set<String> keys = System.getenv().keySet();
+		for (String key : keys) {
+			String val = System.getenv(key);
+			env.add(key, new JsonPrimitive(val));
+		}
+		
+		return env;
+	}
+	
+	protected JsonObject getSystemProps(){
+		JsonObject env = new JsonObject();
+		
+		Set keys = System.getProperties().keySet();
+		for (Object keyO : keys) {
+			String key = keyO.toString();
+			String val = System.getProperty(key);
+			env.add(key, new JsonPrimitive(val));
+		}
+		
+		return env;
+	}
+    
+	public String getName() {
 		return name;
 	}
 
