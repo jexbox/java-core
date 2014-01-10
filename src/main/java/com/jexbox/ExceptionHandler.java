@@ -2,7 +2,7 @@ package com.jexbox;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
-class ExceptionHandler implements UncaughtExceptionHandler {
+public class ExceptionHandler implements UncaughtExceptionHandler {
     private UncaughtExceptionHandler _handler;
     private Jexbox _jexbox;
 
