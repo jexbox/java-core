@@ -4,16 +4,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Jexbox implements Notifier{
-    private static Log log = LogFactory.getLog(Jexbox.class);
+    private static Logger _logger = Logger.getLogger(Jexbox.class.getName());
 
     private static final String NOTIFIER_URL = "https://jexbox.com/java";
     private static final String NOTIFIER_NAME = "Java Jexbox Notifier";
@@ -74,6 +73,7 @@ public class Jexbox implements Notifier{
 	 * Depending from configuration, can send error instantly in current thread or use background notifier to put errors in queue
 	 */
 	public void send(Throwable e){
+		sendWithMeta(e, null);
 	}
 	
 	public void sendWithMeta(Throwable e, Map<String, Map<String, String>> metaD){
@@ -81,9 +81,9 @@ public class Jexbox implements Notifier{
 		try {
 			_notifier.send(json);
 		} catch (UnsupportedEncodingException e1) {
-			log.error("Could not able to send error to Jexbox", e1);
+			_logger.log(Level.SEVERE, "Could not able to send error to Jexbox", e1);
 		} catch (TransportException e1) {
-			log.error("Could not able to send error to Jexbox", e1);
+			_logger.log(Level.SEVERE, "Could not able to send error to Jexbox", e1);
 		}
 	}
 	
@@ -136,7 +136,7 @@ public class Jexbox implements Notifier{
 		meta.add("Environment", env);
 
 		JsonObject systemProps = getSystemProps();
-		meta.add("SystemProps", env);
+		meta.add("SystemProps", systemProps);
         
 		if(metaD != null){
 			for (String metaName : metaD.keySet()) {

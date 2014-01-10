@@ -6,14 +6,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.JsonObject;
 
 public class MemoryQueue extends CAbstractQueue{
-    private static Log _logger = LogFactory.getLog(MemoryQueue.class);
+    private static Logger _logger = Logger.getLogger(MemoryQueue.class.getName());
 	
     private LinkedList<JsonObject> _queue = new LinkedList<JsonObject>();
     
@@ -116,7 +115,7 @@ public class MemoryQueue extends CAbstractQueue{
 		try {
 			wait();
 		} catch (InterruptedException ex) {
-			_logger.trace(ex.getMessage(), ex);
+			_logger.log(Level.SEVERE, ex.getMessage(), ex);
 		}
 	}
 	

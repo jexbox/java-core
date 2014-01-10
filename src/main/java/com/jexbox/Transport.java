@@ -7,14 +7,13 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.JsonObject;
 
 public class Transport implements Runnable{
-    private static Log log = LogFactory.getLog(Transport.class);
+    private static Logger _logger = Logger.getLogger(Transport.class.getName());
 
 	private MemoryQueue _queue = null;
 	private String _state = "idle";
@@ -32,7 +31,7 @@ public class Transport implements Runnable{
     public synchronized void start(){
     	if(!"idle".equals(_state)){
 //    		throw new Exception("You can only start idle workers");
-    		log.warn("You can only start idle workers");
+    		_logger.log(Level.INFO, "You can only start idle workers");
     		return;
     	}
     	Thread t = new Thread(this);
@@ -56,7 +55,7 @@ public class Transport implements Runnable{
 				try {
 					send(json);
 				} catch (Throwable e) {
-					log.error(e);
+					_logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 				_queue.remove();				
 			}
