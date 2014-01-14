@@ -57,9 +57,7 @@ public class JexboxHTTP extends Jexbox{
 			while (names.hasMoreElements()) {
 				String name = (String) names.nextElement();
 				Object attr = session.getAttribute(name);
-				if(attr instanceof String){
-					sessionD.add(name, new JsonPrimitive(attr.toString()));
-				}
+				sessionD.add(name, new JsonPrimitive(String.valueOf(attr)));
 			}
 		}
 	}
@@ -70,32 +68,36 @@ public class JexboxHTTP extends Jexbox{
 				json.add("meta", meta);
 			}
 			
-			JsonObject req = new JsonObject();
-			meta.add("request", req);
-			
+			JsonObject reqAttr = new JsonObject();
+			meta.add("request attr", reqAttr);
 			Enumeration<String> names = reqHTTP.getAttributeNames();
 			while (names.hasMoreElements()) {
 				String name = (String) names.nextElement();
 				Object attr = reqHTTP.getAttribute(name);
-				if(attr instanceof String){
-					req.add(name, new JsonPrimitive(attr.toString()));
-				}
+				reqAttr.add(name, new JsonPrimitive(String.valueOf(attr)));
 			}
 			
+			JsonObject reqPara = new JsonObject();
+			meta.add("request params", reqPara);
 			names = reqHTTP.getParameterNames();
 			while (names.hasMoreElements()) {
 				String name = (String) names.nextElement();
 				String attr = reqHTTP.getParameter(name);
-				req.add(name, new JsonPrimitive(attr.toString()));
+				reqPara.add(name, new JsonPrimitive(attr.toString()));
 			}
 			
+			JsonObject reqHead = new JsonObject();
+			meta.add("request headers", reqHead);
 			names = reqHTTP.getHeaderNames();
 			while (names.hasMoreElements()) {
 				String name = (String) names.nextElement();
 				String attr = reqHTTP.getParameter(name);
-				req.add(name, new JsonPrimitive(attr.toString()));
+				reqHead.add(name, new JsonPrimitive(attr.toString()));
 			}
 			
+			
+			JsonObject req = new JsonObject();
+			meta.add("request", req);
 			req.add("Auth Type", new JsonPrimitive(reqHTTP.getAuthType()));
 			req.add("Character Encoding", new JsonPrimitive(reqHTTP.getCharacterEncoding()));
 			req.add("Content Type", new JsonPrimitive(reqHTTP.getContentType()));
