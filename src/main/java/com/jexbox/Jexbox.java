@@ -14,23 +14,21 @@ import com.google.gson.JsonPrimitive;
 public class Jexbox implements Notifier{
     private static Logger _logger = Logger.getLogger(Jexbox.class.getName());
 
-    private static final String NOTIFIER_URL = "https://jexbox.com/java";
-    private static final String NOTIFIER_NAME = "Java Jexbox Notifier";
-    private static final String NOTIFIER_VERSION = "0.0.1";
-    private static final String ENVIRONMENT = "production";
+    public static final String NOTIFIER_URL = "https://jexbox.com/java";
+    public static final String NOTIFIER_NAME = "Java Jexbox Notifier";
+    public static final String NOTIFIER_VERSION = "0.0.1";
+    public static final String ENVIRONMENT = "production";
+    public static final String DEFAULT_HOST = "notify.jexbox.com";
 
-    protected static final String DEFAULT_HOST = "notify.jexbox.com";
+    protected String name = NOTIFIER_NAME;
+    protected String version = NOTIFIER_VERSION;
+    protected String url = NOTIFIER_URL;
+    protected String env = ENVIRONMENT;
 
-    private String name = NOTIFIER_NAME;
-	private String version = NOTIFIER_VERSION;
-    private String url = NOTIFIER_URL;
-    private String env = ENVIRONMENT;
-
-    private String appId;
-    private boolean ssl = false;
-    private String host = DEFAULT_HOST;
-
-    private Notifier _notifier = this;
+    protected String appId;
+    protected boolean ssl = false;
+    protected String host = DEFAULT_HOST;
+    protected Notifier _notifier = this;
     
 	public Jexbox(Properties props) {
 		super();
@@ -210,58 +208,4 @@ public class Jexbox implements Notifier{
 	public void setEnv(String env) {
 		this.env = env;
 	}
-
-    
-	
-/*
-	public String json(Throwable e){
-		StringBuffer json = new StringBuffer();
-		json.append("{\n");//start object
-		
-		json.append("\"appId\"");//add property appId
-		json.append(":");
-		json.append("\""+getAppId()+"\"");//add appId value
-		json.append(",\n");
-		
-		json.append("\"exceptions\"");//add array aproperty exceptions
-		json.append(":[\n");
-	
-		Throwable ex = e;
-        while(ex != null) {
-    		json.append("{");//start exception class
-    		
-    		json.append("\"errorClass\"");//add property name
-    		json.append(":");//add property div
-    		json.append("\""+ex.getClass().getName()+"\"");//add property value
-    		json.append(",\n");
-    		
-    		json.append("\"message\"");//add property name
-    		json.append(":");//add property div
-    		json.append("\""+ex.getMessage()+"\"");//add property value
-    		json.append(",\n");
-    		
-    		json.append("\"stacktrace\"");//add array aproperty stacktrace
-    		json.append(":[");
-            
-    		StackTraceElement[] stackTrace = ex.getStackTrace();
-            for(int i=0; i < stackTrace.length; i++) {
-            	StackTraceElement el = stackTrace[i];
-        		json.append("\""+el.toString()+"\"");//add property value
-        		if(i < stackTrace.length-1) json.append(",\n");
-            }
-            
-    		json.append("]");//end array aproperty stacktrace
-    		
-    		json.append("}\n");//end exception class
-            ex = ex.getCause();
-            if(ex != null) json.append(",\n");
-        }		
-		
-		json.append("]\n");//end array aproperty exceptions
-		
-		json.append("}");//end object
-		
-		return json.toString();
-	}
-*/
 }
