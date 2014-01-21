@@ -113,7 +113,8 @@ public class Jexbox implements Notifier{
     		JsonObject jex = new JsonObject();
     		exceptions.add(jex);
     		jex.add("class", new JsonPrimitive(ex.getClass().getName()));
-    		jex.add("message", new JsonPrimitive(ex.getMessage()));
+    		String message = (ex.getMessage() == null || ex.getMessage().length() == 0) ? "" :  ex.getMessage();
+    		jex.add("message", new JsonPrimitive(message));
     		
     		JsonArray stack = new JsonArray();
     		jex.add("stacktrace", stack);
