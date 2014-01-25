@@ -28,6 +28,7 @@ public class ExceptionHandler implements UncaughtExceptionHandler {
 
     public void uncaughtException(Thread thread, Throwable ex) {
     	_jexbox.send(ex);
-    	_handler.uncaughtException(thread, ex);
+    	if(_handler != null)
+    		_handler.uncaughtException(thread, ex);
     }
 }
