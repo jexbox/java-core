@@ -106,7 +106,7 @@ public class Jexbox implements Notifier{
 		json.add("exceptionType", new JsonPrimitive(e.getClass().getName()));
 		json.add("inClass", new JsonPrimitive(e.getStackTrace()[0].getClassName()));
 		json.add("inMethod", new JsonPrimitive(e.getStackTrace()[0].getMethodName()));
-		json.add("inFile", new JsonPrimitive(e.getStackTrace()[0].getFileName()));
+		json.add("inFile", new JsonPrimitive(convertNull(e.getStackTrace()[0].getFileName())));
 		json.add("onLine", new JsonPrimitive(e.getStackTrace()[0].getLineNumber()));
 		Throwable ex = e;
         while(ex != null) {
@@ -151,6 +151,11 @@ public class Jexbox implements Notifier{
 		}
 		
 		return json;
+	}
+	
+	protected String convertNull(String prop){
+		if(prop == null || prop.length() == 0) prop = "undefined";
+		return prop;
 	}
 	
 	protected JsonObject getEnvironment(){
