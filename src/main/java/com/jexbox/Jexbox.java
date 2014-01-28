@@ -25,6 +25,8 @@ public class Jexbox implements Notifier{
     protected String url = NOTIFIER_URL;
     protected String env = ENVIRONMENT;
 
+    protected String appVersion = "0.0.0";
+
     protected String appId;
     protected boolean ssl = false;
     protected String host = DEFAULT_HOST;
@@ -45,6 +47,10 @@ public class Jexbox implements Notifier{
 		}
 		if(props.containsKey("ssl")){
 			ssl = Boolean.parseBoolean((String) props.get("ssl"));
+		}
+
+		if(props.containsKey("appVersion")){
+			appVersion = (String) props.get("appVersion");
 		}
 
 		if(props.containsKey("background")){
@@ -93,6 +99,7 @@ public class Jexbox implements Notifier{
 		JsonObject json = new JsonObject();
 		json.add("appId", new JsonPrimitive(getAppId()));
 		json.add("host", new JsonPrimitive(getHttpHost()));
+		json.add("appVersion", new JsonPrimitive(getAppVersion()));
 
 		JsonObject notifier = new JsonObject();
 		json.add("notifier", notifier);
@@ -213,5 +220,13 @@ public class Jexbox implements Notifier{
 
 	public void setEnv(String env) {
 		this.env = env;
+	}
+
+	public String getAppVersion() {
+		return appVersion;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
 	}
 }
