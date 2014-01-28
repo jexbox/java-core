@@ -10,6 +10,7 @@ public class JexboxTestCase {
 		Properties props = new Properties();
 		props.put("appId", "4d409621cc1d481903b778edbc0d72503bc1b3ac");
 		props.put("host", "notify.ceco.rushmore.cxm:8086");
+		props.put("appVersion", "1.0.1");
 		
 		RuntimeException re = new RuntimeException("Runtime");
 		Exception ex = new Exception("Exception", re);
@@ -46,6 +47,7 @@ public class JexboxTestCase {
 //		props.put("host", "notify.ceco.rushmore.cxm:8086");
 		
 		props.put("appId", "6dd5f3fc15a0aa5ffafe3d119ae83f560d27eea2");
+		props.put("appVersion", "1.0.1");
 		
 		props.put("background", "false");
 		RuntimeException re = new RuntimeException("Runtime");
