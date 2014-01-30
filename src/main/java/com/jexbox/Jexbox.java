@@ -20,17 +20,17 @@ public class Jexbox implements Notifier{
     public static final String ENVIRONMENT = "production";
     public static final String DEFAULT_HOST = "notify.jexbox.com";
 
-    protected String name = NOTIFIER_NAME;
-    protected String version = NOTIFIER_VERSION;
-    protected String url = NOTIFIER_URL;
-    protected String env = ENVIRONMENT;
+    protected String name;
+    protected String version;
+    protected String url;
+    protected String env;
 
-    protected String appVersion = "0.0.0";
+    protected String appVersion;
 
     protected String appId;
-    protected boolean ssl = false;
-    protected String host = DEFAULT_HOST;
-    protected Notifier _notifier = this;
+    protected boolean ssl;
+    protected String host;
+    protected Notifier _notifier;
     
 	public Jexbox(Properties props) {
 		super();
@@ -38,6 +38,15 @@ public class Jexbox implements Notifier{
 	}
 	
 	private void init(Properties props){
+	    name = NOTIFIER_NAME;
+	    version = NOTIFIER_VERSION;
+	    url = NOTIFIER_URL;
+	    env = ENVIRONMENT;
+	    appVersion = "0.0.1";
+	    ssl = false;
+	    host = DEFAULT_HOST;
+	    _notifier = this;
+		
 		appId = (String) props.get("appId");
 		if(props.containsKey("host")){
 			host = (String) props.get("host");
