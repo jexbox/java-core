@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class JexboxServletImpl extends JexboxImpl{
+public class JexboxServletImpl extends JexboxImpl implements JexboxServlet{
     private static Logger _logger = Logger.getLogger(JexboxServletImpl.class.getName());
     
 	public JexboxServletImpl(Properties props) {
