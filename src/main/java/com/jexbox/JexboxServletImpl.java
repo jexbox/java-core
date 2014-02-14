@@ -13,10 +13,10 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class JexboxHTTP extends Jexbox{
-    private static Logger _logger = Logger.getLogger(JexboxHTTP.class.getName());
+public class JexboxServletImpl extends JexboxImpl{
+    private static Logger _logger = Logger.getLogger(JexboxServletImpl.class.getName());
     
-	public JexboxHTTP(Properties props) {
+	public JexboxServletImpl(Properties props) {
 		super(props);
 	}
 	
@@ -43,7 +43,7 @@ public class JexboxHTTP extends Jexbox{
 		}
 	}
 	
-	public void addSessionMetaData(HttpSession session, JsonObject json){
+	protected void addSessionMetaData(HttpSession session, JsonObject json){
 		if(session != null){
 			JsonObject meta = json.getAsJsonObject("meta");
 			if(meta == null){
@@ -63,7 +63,7 @@ public class JexboxHTTP extends Jexbox{
 		}
 	}
 	
-	public void addRequestMetaData(HttpServletRequest reqHTTP, JsonObject json){
+	protected void addRequestMetaData(HttpServletRequest reqHTTP, JsonObject json){
 			JsonObject meta = json.getAsJsonObject("meta");
 			if(meta == null){
 				meta = new JsonObject();

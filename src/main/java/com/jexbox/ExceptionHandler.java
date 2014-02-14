@@ -4,14 +4,14 @@ import java.lang.Thread.UncaughtExceptionHandler;
 
 public class ExceptionHandler implements UncaughtExceptionHandler {
     private UncaughtExceptionHandler _handler;
-    private Jexbox _jexbox;
+    private JexboxImpl _jexbox;
 
-    public ExceptionHandler(UncaughtExceptionHandler handler, Jexbox notifier) {
+    public ExceptionHandler(UncaughtExceptionHandler handler, JexboxImpl notifier) {
         _handler = handler;
         _jexbox = notifier;
     }
     
-    public static void install(Jexbox notifier) {
+    public static void install(JexboxImpl notifier) {
         UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
         if(currentHandler instanceof ExceptionHandler) {
             currentHandler = ((ExceptionHandler)currentHandler)._handler;

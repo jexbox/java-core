@@ -1,7 +1,7 @@
 import java.util.Properties;
 
 import com.google.gson.JsonObject;
-import com.jexbox.Jexbox;
+import com.jexbox.JexboxImpl;
 
 
 public class JexboxTestCase {
@@ -14,7 +14,7 @@ public class JexboxTestCase {
 		
 		RuntimeException re = new RuntimeException("Runtime");
 		Exception ex = new Exception("Exception", re);
-		Jexbox jexbox = new Jexbox(props);
+		JexboxImpl jexbox = new JexboxImpl(props);
 		JsonObject jsonO = jexbox.json(ex);
 		String json = jsonO.toString();
 		System.out.println(json);
@@ -52,7 +52,7 @@ public class JexboxTestCase {
 		props.put("background", "false");
 		RuntimeException re = new RuntimeException("Runtime");
 		Exception ex = new Exception("Exception", re);
-		Jexbox jexbox = new Jexbox(props);
+		JexboxImpl jexbox = new JexboxImpl(props);
 		jexbox.send(ex);
 	}
 	
