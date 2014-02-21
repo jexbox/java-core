@@ -156,7 +156,7 @@ public class JexboxImpl implements Notifier, Jexbox{
 		if(metaD != null){
 			for (String metaName : metaD.keySet()) {
 				JsonObject metaP = new JsonObject();
-				meta.add("metaName", metaP);
+				meta.add(metaName, metaP);
 
 				Map<String, String> metaG = metaD.get(metaName);
 				for (String key : metaG.keySet()) {
