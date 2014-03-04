@@ -48,6 +48,9 @@ public class JexboxTestCase {
 		
 		props.put("appId", "6dd5f3fc15a0aa5ffafe3d119ae83f560d27eea2");
 		props.put("appVersion", "1.0.1");
+//		props.put("proxyHost", "94.205.181.212");
+//		props.put("proxyPort", new Integer(80));
+		props.put("useSystemProxy", new Boolean(true));
 		
 		props.put("background", "false");
 		RuntimeException re = new RuntimeException("Runtime");

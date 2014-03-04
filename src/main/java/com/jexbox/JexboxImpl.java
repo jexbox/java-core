@@ -32,6 +32,10 @@ public class JexboxImpl implements Notifier, Jexbox{
     protected String host;
     protected Notifier _notifier;
     
+    protected String proxyHost;
+    protected int proxyPort;
+    protected boolean useSystemProxy;
+    
 	public JexboxImpl(Properties props) {
 		super();
 		init(props);
@@ -46,6 +50,8 @@ public class JexboxImpl implements Notifier, Jexbox{
 	    ssl = false;
 	    host = DEFAULT_HOST;
 	    _notifier = this;
+	    proxyHost = null;
+	    useSystemProxy = false;
 		
 		appId = (String) props.get("appId");
 		if(props.containsKey("host")){
@@ -68,6 +74,12 @@ public class JexboxImpl implements Notifier, Jexbox{
 				_notifier = new BackgroundNotifier();
 			}
 		}
+		
+		proxyHost = (String) props.get("proxyHost");
+		Integer pp = (Integer) props.get("proxyPort");
+		if(pp != null) proxyPort = pp.intValue();
+		Boolean usp = (Boolean) props.get("useSystemProxy");
+		if(usp != null) useSystemProxy = usp.booleanValue();
 	}
 	
 	public String getAppId(){
@@ -109,6 +121,10 @@ public class JexboxImpl implements Notifier, Jexbox{
 		json.add("appId", new JsonPrimitive(getAppId()));
 		json.add("host", new JsonPrimitive(getHttpHost()));
 		json.add("appVersion", new JsonPrimitive(getAppVersion()));
+		
+		if(getProxyHost() != null) json.add("proxyHost", new JsonPrimitive(getProxyHost()));
+		json.add("proxyPort", new JsonPrimitive(getProxyPort()));
+		json.add("useSystemProxy", new JsonPrimitive(getUseSystemProxy()));
 
 		JsonObject notifier = new JsonObject();
 		json.add("notifier", notifier);
@@ -237,5 +253,29 @@ public class JexboxImpl implements Notifier, Jexbox{
 
 	public void setAppVersion(String appVersion) {
 		this.appVersion = appVersion;
+	}
+
+	public String getProxyHost() {
+		return proxyHost;
+	}
+
+	public void setProxyHost(String proxyHost) {
+		this.proxyHost = proxyHost;
+	}
+
+	public int getProxyPort() {
+		return proxyPort;
+	}
+
+	public void setProxyPort(int proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	public boolean getUseSystemProxy() {
+		return useSystemProxy;
+	}
+
+	public void setUseSystemProxy(boolean useSystemProxy) {
+		this.useSystemProxy = useSystemProxy;
 	}
 }
