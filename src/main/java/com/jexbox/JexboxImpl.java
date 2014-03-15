@@ -177,7 +177,7 @@ public class JexboxImpl implements Notifier, Jexbox{
 				Map<String, String> metaG = metaD.get(metaName);
 				for (String key : metaG.keySet()) {
 					String val = metaG.get(key);
-					env.add(key, new JsonPrimitive(val));
+					metaP.add(key, new JsonPrimitive(val));
 				}			
 			}
 		}

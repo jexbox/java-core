@@ -99,7 +99,7 @@ public class JexboxRequestExceptionHandler implements RequestExceptionHandler{
 		Map<String, String> meta = new HashMap<String, String>();
 		String pageTrace = baos.toString();
 		String pageTrace64 = Base64.encodeBase64String(pageTrace.getBytes());
-		meta.put("Page Trace", pageTrace64);
+		meta.put("data", pageTrace64);
 		Map<String, Map<String, String>> meta2 = new HashMap<String, Map<String, String>>();
 		meta2.put("Page Trace", meta);
     	_jexbox.sendWithMeta(exception, _request.getHTTPServletRequest(), meta2);
