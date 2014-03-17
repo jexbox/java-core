@@ -22,11 +22,11 @@ import org.apache.tapestry5.services.RequestGlobals;
 public class JexboxRequestExceptionHandler implements RequestExceptionHandler{
 	
 	private RequestExceptionHandler _delegate;
-	private JexboxServlet _jexbox;
+	private JexboxWeb _jexbox;
 	private RequestGlobals _request;
 	private ExceptionAnalyzer _analyzer;
 	
-	public JexboxRequestExceptionHandler(RequestExceptionHandler delegate, JexboxServlet jexbox, RequestGlobals request, ExceptionAnalyzer analyzer){
+	public JexboxRequestExceptionHandler(RequestExceptionHandler delegate, JexboxWeb jexbox, RequestGlobals request, ExceptionAnalyzer analyzer){
 		super();
 		_delegate = delegate;
 		_jexbox = jexbox;

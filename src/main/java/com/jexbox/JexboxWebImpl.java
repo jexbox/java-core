@@ -13,10 +13,10 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class JexboxServletImpl extends JexboxImpl implements JexboxServlet{
-    private static Logger _logger = Logger.getLogger(JexboxServletImpl.class.getName());
+public class JexboxWebImpl extends JexboxImpl implements JexboxWeb{
+    private static Logger _logger = Logger.getLogger(JexboxWebImpl.class.getName());
     
-	public JexboxServletImpl(Properties props) {
+	public JexboxWebImpl(Properties props) {
 		super(props);
 	}
 	
@@ -54,6 +54,7 @@ public class JexboxServletImpl extends JexboxImpl implements JexboxServlet{
 			JsonObject sessionD = new JsonObject();
 			meta.add("Session", sessionD);
 			
+			@SuppressWarnings("unchecked")
 			Enumeration<String> names = session.getAttributeNames();
 			while (names.hasMoreElements()) {
 				String name = (String) names.nextElement();
@@ -63,12 +64,16 @@ public class JexboxServletImpl extends JexboxImpl implements JexboxServlet{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void addRequestMetaData(HttpServletRequest reqHTTP, JsonObject json){
 			JsonObject meta = json.getAsJsonObject("meta");
 			if(meta == null){
 				meta = new JsonObject();
 				json.add("meta", meta);
 			}
+			
+			json.add("uri",  new JsonPrimitive(reqHTTP.getRequestURL().toString()));
+			
 			
 			JsonObject reqAttr = new JsonObject();
 			meta.add("Request Attr", reqAttr);
