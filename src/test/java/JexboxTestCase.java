@@ -1,6 +1,5 @@
 import java.util.Properties;
 
-import com.google.gson.JsonObject;
 import com.jexbox.JexboxImpl;
 
 
@@ -8,8 +7,12 @@ public class JexboxTestCase {
 	
 	public static void testJSON(){
 		Properties props = new Properties();
-		props.put("appId", "36bf2f90cfaa8b6542f79a8ef39f7a875b667d8d");
-		props.put("host", "notify.ceco.rushmore.cxm:8086");
+
+		props.put("appId", "3d3fb8210d54222ae55c81358ab3a96ea38c4f9e");
+		props.put("host", "localhost:8080/api/notify");
+		
+//		props.put("appId", "36bf2f90cfaa8b6542f79a8ef39f7a875b667d8d");
+//		props.put("host", "notify.ceco.rushmore.cxm:8086");
 		props.put("appVersion", "1.0.1");
 		
 		RuntimeException re = new RuntimeException("Runtime");
@@ -48,7 +51,7 @@ public class JexboxTestCase {
 		Properties props = new Properties();
 //		props.put("appId", "4d409621cc1d481903b778edbc0d72503bc1b3ac");
 //		props.put("host", "notify.ceco.rushmore.cxm:8086");
-		
+	
 		props.put("appId", "6dd5f3fc15a0aa5ffafe3d119ae83f560d27eea2");
 		props.put("appVersion", "1.0.1");
 //		props.put("proxyHost", "94.205.181.212");
