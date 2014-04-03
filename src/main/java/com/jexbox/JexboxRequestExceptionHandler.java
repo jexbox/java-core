@@ -13,9 +13,11 @@ import org.apache.tapestry5.internal.renderers.ComponentResourcesRenderer;
 import org.apache.tapestry5.internal.renderers.LocationRenderer;
 import org.apache.tapestry5.internal.services.MarkupWriterImpl;
 import org.apache.tapestry5.ioc.Location;
+import org.apache.tapestry5.ioc.internal.OperationException;
 import org.apache.tapestry5.ioc.services.ExceptionAnalysis;
 import org.apache.tapestry5.ioc.services.ExceptionAnalyzer;
 import org.apache.tapestry5.ioc.services.ExceptionInfo;
+import org.apache.tapestry5.runtime.ComponentEventException;
 import org.apache.tapestry5.services.RequestExceptionHandler;
 import org.apache.tapestry5.services.RequestGlobals;
 
@@ -102,8 +104,25 @@ public class JexboxRequestExceptionHandler implements RequestExceptionHandler{
 		meta.put("data", pageTrace64);
 		Map<String, Map<String, String>> meta2 = new HashMap<String, Map<String, String>>();
 		meta2.put("Page Trace", meta);
-    	_jexbox.sendWithMeta(exception, _request.getHTTPServletRequest(), meta2);
+		
+		Throwable filtered = removeInfrastructure(exception);
+		
+    	_jexbox.sendWithMeta(filtered, _request.getHTTPServletRequest(), meta2);
     	_delegate.handleRequestException(exception);
+    }
+    
+    protected Throwable removeInfrastructure(Throwable e){
+    	if(e.getCause() != null){
+    		if(e instanceof ComponentEventException){
+    			return removeInfrastructure(e.getCause());
+    		}else if(e instanceof OperationException){
+    			return removeInfrastructure(e.getCause());
+    		}else{
+    			return e;
+    		}
+    	}else{
+    		return e;
+    	}
     }
 
 }

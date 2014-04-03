@@ -8,16 +8,19 @@ public class JexboxTestCase {
 	
 	public static void testJSON(){
 		Properties props = new Properties();
-		props.put("appId", "4d409621cc1d481903b778edbc0d72503bc1b3ac");
+		props.put("appId", "36bf2f90cfaa8b6542f79a8ef39f7a875b667d8d");
 		props.put("host", "notify.ceco.rushmore.cxm:8086");
 		props.put("appVersion", "1.0.1");
 		
 		RuntimeException re = new RuntimeException("Runtime");
 		Exception ex = new Exception("Exception", re);
 		JexboxImpl jexbox = new JexboxImpl(props);
-		JsonObject jsonO = jexbox.json(ex);
-		String json = jsonO.toString();
-		System.out.println(json);
+		
+		jexbox.send(ex);
+		
+//		JsonObject jsonO = jexbox.json(ex);
+//		String json = jsonO.toString();
+//		System.out.println(json);
 		
 //		Gson parser = new Gson();
 //		HashMap data = (HashMap) parser.fromJson(json, HashMap.class);
@@ -60,7 +63,7 @@ public class JexboxTestCase {
 	}
 	
 	public static void main(String[] args) {
-		send();
+		testJSON();
 		System.out.println("sent");
 	}
 }
