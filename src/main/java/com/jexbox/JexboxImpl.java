@@ -103,6 +103,10 @@ public class JexboxImpl implements Notifier, Jexbox{
 	
 	public void sendWithMeta(Throwable e, Map<String, Map<String, String>> metaD){
 		JsonObject json = json(e, metaD);
+		sendJson(json);
+	}
+	
+	public void sendJson(JsonObject json) {
 		try {
 			_notifier.send(json);
 		} catch (UnsupportedEncodingException e1) {

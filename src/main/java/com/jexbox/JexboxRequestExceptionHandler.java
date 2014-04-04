@@ -12,8 +12,10 @@ import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.internal.renderers.ComponentResourcesRenderer;
 import org.apache.tapestry5.internal.renderers.LocationRenderer;
 import org.apache.tapestry5.internal.services.MarkupWriterImpl;
+import org.apache.tapestry5.internal.services.RenderQueueException;
 import org.apache.tapestry5.ioc.Location;
 import org.apache.tapestry5.ioc.internal.OperationException;
+import org.apache.tapestry5.ioc.internal.util.TapestryException;
 import org.apache.tapestry5.ioc.services.ExceptionAnalysis;
 import org.apache.tapestry5.ioc.services.ExceptionAnalyzer;
 import org.apache.tapestry5.ioc.services.ExceptionInfo;
@@ -27,16 +29,22 @@ public class JexboxRequestExceptionHandler implements RequestExceptionHandler{
 	private JexboxWeb _jexbox;
 	private RequestGlobals _request;
 	private ExceptionAnalyzer _analyzer;
+	private boolean _filterTapestryInfrastructureExceptions;
 	
 	public JexboxRequestExceptionHandler(RequestExceptionHandler delegate, JexboxWeb jexbox, RequestGlobals request, ExceptionAnalyzer analyzer){
+		this(delegate, jexbox, request, analyzer, true);
+	}
+	
+	public JexboxRequestExceptionHandler(RequestExceptionHandler delegate, JexboxWeb jexbox, RequestGlobals request, ExceptionAnalyzer analyzer, boolean filterTapestryInfrastructureExceptions){
 		super();
 		_delegate = delegate;
 		_jexbox = jexbox;
 		_request = request;
 		_analyzer = analyzer;
+		_filterTapestryInfrastructureExceptions = filterTapestryInfrastructureExceptions;
 	}
-	
-    public void handleRequestException(Throwable exception) throws IOException
+
+	public void handleRequestException(Throwable exception) throws IOException
     {
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	PrintWriter pw = new PrintWriter(baos);
@@ -105,10 +113,19 @@ public class JexboxRequestExceptionHandler implements RequestExceptionHandler{
 		Map<String, Map<String, String>> meta2 = new HashMap<String, Map<String, String>>();
 		meta2.put("Page Trace", meta);
 		
-		Throwable filtered = removeInfrastructure(exception);
-		
-    	_jexbox.sendWithMeta(filtered, _request.getHTTPServletRequest(), meta2);
+		Throwable filtered = _filterTapestryInfrastructureExceptions ? removeInfrastructure(exception) : exception;
+
+		_jexbox.sendWithMeta(filtered, _request.getHTTPServletRequest(), meta2);
     	_delegate.handleRequestException(exception);
+    }
+    
+    protected void printNestedExceptoins(Throwable e){
+    	System.out.println(e.getClass().getName() + " | " + e.getMessage());
+    	if(e.getCause() != null){
+    		printNestedExceptoins(e.getCause());
+    	}else{
+    		return;
+    	}
     }
     
     protected Throwable removeInfrastructure(Throwable e){
@@ -117,6 +134,14 @@ public class JexboxRequestExceptionHandler implements RequestExceptionHandler{
     			return removeInfrastructure(e.getCause());
     		}else if(e instanceof OperationException){
     			return removeInfrastructure(e.getCause());
+    		}else if(e instanceof RenderQueueException){
+    			return removeInfrastructure(e.getCause());
+    		}else if(e instanceof TapestryException){
+				return removeInfrastructure(e.getCause());
+//    			if(e.getCause() != null && e.getCause() instanceof TapestryException)
+//    				return removeInfrastructure(e.getCause());
+//    			else
+//        			return e;
     		}else{
     			return e;
     		}

@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.gson.JsonObject;
 
 public interface Jexbox {
+	public void sendJson(JsonObject json);
 	public void send(Throwable e);
 	public void sendWithMeta(Throwable e, Map<String, Map<String, String>> metaD);
 	public JsonObject json(Throwable e);
