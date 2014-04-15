@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>jexbox-java</groupId>
-  <artifactId>jexbox-java</artifactId>
+  <groupId>com.jexbox.connector</groupId>
+  <artifactId>jexbox-core</artifactId>
   <version>0.0.1</version>
   <dependencies>
        <dependency>
@@ -9,36 +9,6 @@
            <artifactId>gson</artifactId>
            <version>2.2.4</version>
        </dependency>
-       
-       <dependency>
-           <groupId>javax.servlet</groupId>
-           <artifactId>servlet-api</artifactId>
-           <version>2.5</version>
-       </dependency>
-       
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>tapestry-core</artifactId>
-            <version>${tapestry-release-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>org.slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-       
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>2.2.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>2.2.5</version>
-        </dependency>
        
   </dependencies>
   

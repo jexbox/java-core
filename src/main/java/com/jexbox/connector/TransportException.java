@@ -1,4 +1,4 @@
-package com.jexbox;
+package com.jexbox.connector;
 
 public class TransportException extends Exception {
 	private static final long serialVersionUID = -3599494320410133186L;

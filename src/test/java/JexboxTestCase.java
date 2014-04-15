@@ -1,6 +1,6 @@
 import java.util.Properties;
 
-import com.jexbox.JexboxImpl;
+import com.jexbox.connector.JexboxConnectorImpl;
 
 
 public class JexboxTestCase {
@@ -17,7 +17,7 @@ public class JexboxTestCase {
 		
 		RuntimeException re = new RuntimeException("Runtime");
 		Exception ex = new Exception("Exception", re);
-		JexboxImpl jexbox = new JexboxImpl(props);
+		JexboxConnectorImpl jexbox = new JexboxConnectorImpl(props);
 		
 		jexbox.send(ex);
 		
@@ -61,7 +61,7 @@ public class JexboxTestCase {
 		props.put("background", "false");
 		RuntimeException re = new RuntimeException("Runtime");
 		Exception ex = new Exception("Exception", re);
-		JexboxImpl jexbox = new JexboxImpl(props);
+		JexboxConnectorImpl jexbox = new JexboxConnectorImpl(props);
 		jexbox.send(ex);
 	}
 	

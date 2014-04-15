@@ -1,4 +1,4 @@
-package com.jexbox;
+package com.jexbox.connector;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

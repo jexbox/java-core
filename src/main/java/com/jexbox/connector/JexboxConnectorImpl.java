@@ -1,4 +1,4 @@
-package com.jexbox;
+package com.jexbox.connector;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -11,8 +11,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class JexboxImpl implements Notifier, Jexbox{
-    private static Logger _logger = Logger.getLogger(JexboxImpl.class.getName());
+public class JexboxConnectorImpl implements Notifier, JexboxConnector{
+    private static Logger _logger = Logger.getLogger(JexboxConnectorImpl.class.getName());
 
     public static final String NOTIFIER_URL = "https://jexbox.com/java";
     public static final String NOTIFIER_NAME = "Java Jexbox Notifier";
@@ -36,7 +36,7 @@ public class JexboxImpl implements Notifier, Jexbox{
     protected int proxyPort;
     protected boolean useSystemProxy;
     
-	public JexboxImpl(Properties props) {
+	public JexboxConnectorImpl(Properties props) {
 		super();
 		init(props);
 	}
