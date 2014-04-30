@@ -3,17 +3,29 @@
   <groupId>com.jexbox.connector</groupId>
   <artifactId>jexbox-core</artifactId>
   <version>0.0.1</version>
+  <packaging>jar</packaging>
+  <name>Core Java Jexbox Connector</name>
+  <description>Core Java Jexbox connector hooks into Thread.UncaughtExceptionHandler, so any uncaught exceptions in your application will be sent to your Jexbox database. The connector extracts complete exception stack trace, including nested exceptions, error message and system properties</description>
+  <url>http://jexbox.com/connectors</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>1</id>
+      <name>Tsvetelin Saykov</name>
+      <email>tsvetelin.saykov@gmail.com</email>
+    </developer>
+  </developers>
   <dependencies>
-       <dependency>
-           <groupId>com.google.code.gson</groupId>
-           <artifactId>gson</artifactId>
-           <version>2.2.4</version>
-       </dependency>
-       
+  <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.2.4</version>
+    </dependency>
   </dependencies>
-  
-    <properties>
-        <tapestry-release-version>5.3.2</tapestry-release-version>
-    </properties>
-  
 </project>

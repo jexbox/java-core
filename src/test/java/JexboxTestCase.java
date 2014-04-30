@@ -8,8 +8,8 @@ public class JexboxTestCase {
 	public static void testJSON(){
 		Properties props = new Properties();
 
-		props.put("appId", "3d3fb8210d54222ae55c81358ab3a96ea38c4f9e");
-		props.put("host", "localhost:8080/api/notify");
+		props.put("appId", "296122b013db574ae2ef2368e1a76bdc1afd96ed");
+		props.put("host", "localhost:8086/api/notify");
 		
 //		props.put("appId", "36bf2f90cfaa8b6542f79a8ef39f7a875b667d8d");
 //		props.put("host", "notify.ceco.rushmore.cxm:8086");
