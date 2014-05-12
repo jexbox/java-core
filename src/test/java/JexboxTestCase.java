@@ -66,7 +66,8 @@ public class JexboxTestCase {
 	}
 	
 	public static void main(String[] args) {
-		testJSON();
+//		testJSON();
+		send();
 		System.out.println("sent");
 	}
 }
