@@ -4,7 +4,19 @@ import com.jexbox.connector.JexboxConnectorImpl;
 
 
 public class JexboxTestCase {
-	
+	public static void textMethod2(){
+		Properties props = new Properties();
+		props.put("appId", "287e47ea16d67adf14ba42bc50edaaf73ddcc3bc");
+		props.put("appVersion", "1.0.1");
+		props.put("useSystemProxy", new Boolean(true));
+		
+		props.put("background", "false");
+		RuntimeException re = new RuntimeException("Non catched exception - textMethod2");
+		Exception ex = new Exception("Wrapped Exception - textMethod2", re);
+		JexboxConnectorImpl jexbox = new JexboxConnectorImpl(props);
+		jexbox.send(ex);
+	}
+
 	public static void testJSON(){
 		Properties props = new Properties();
 
@@ -49,25 +61,20 @@ public class JexboxTestCase {
 	
 	public static void send(){
 		Properties props = new Properties();
-//		props.put("appId", "4d409621cc1d481903b778edbc0d72503bc1b3ac");
-//		props.put("host", "notify.ceco.rushmore.cxm:8086");
-	
-		props.put("appId", "6dd5f3fc15a0aa5ffafe3d119ae83f560d27eea2");
+		props.put("appId", "287e47ea16d67adf14ba42bc50edaaf73ddcc3bc");
 		props.put("appVersion", "1.0.1");
-//		props.put("proxyHost", "94.205.181.212");
-//		props.put("proxyPort", new Integer(80));
 		props.put("useSystemProxy", new Boolean(true));
 		
 		props.put("background", "false");
-		RuntimeException re = new RuntimeException("Runtime");
-		Exception ex = new Exception("Exception", re);
+		RuntimeException re = new RuntimeException("Non catched exception");
+		Exception ex = new Exception("Wrapped Exception", re);
 		JexboxConnectorImpl jexbox = new JexboxConnectorImpl(props);
 		jexbox.send(ex);
 	}
 	
 	public static void main(String[] args) {
 //		testJSON();
-		send();
+		textMethod2();
 		System.out.println("sent");
 	}
 }
