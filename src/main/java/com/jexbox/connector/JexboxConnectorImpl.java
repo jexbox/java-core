@@ -14,11 +14,11 @@ import com.google.gson.JsonPrimitive;
 public class JexboxConnectorImpl implements Notifier, JexboxConnector{
     private static Logger _logger = Logger.getLogger(JexboxConnectorImpl.class.getName());
 
-    public static final String NOTIFIER_URL = "https://jexbox.com/java";
+    public static final String NOTIFIER_URL = "https://jexbox.com/connectors";
     public static final String NOTIFIER_NAME = "Java Jexbox Notifier";
     public static final String NOTIFIER_VERSION = "0.0.1";
     public static final String ENVIRONMENT = "production";
-    public static final String DEFAULT_HOST = "notify.jexbox.com";
+    public static final String DEFAULT_HOST = "jexbox.com/api/notify";
 
     protected String name;
     protected String version;
@@ -47,7 +47,7 @@ public class JexboxConnectorImpl implements Notifier, JexboxConnector{
 	    url = NOTIFIER_URL;
 	    env = ENVIRONMENT;
 	    appVersion = "0.0.1";
-	    ssl = false;
+	    ssl = true;
 	    host = DEFAULT_HOST;
 	    _notifier = this;
 	    proxyHost = null;
